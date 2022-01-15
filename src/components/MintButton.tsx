@@ -75,7 +75,9 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 					.filter((log: any) => log.name === "Transfer")
 					.map((log: any) => log.args.tokenId.toNumber())
 				console.log(purchasedIds)
-				alert(`Purchased ${purchasedIds.length} token(s)`)
+				alert(
+					`Purchased ${purchasedIds.length} token(s)! It may take some time to show up on Opensea.`
+				)
 				getData()
 			} else if (!blockchain.account) {
 				dispatch(connectWallet())
