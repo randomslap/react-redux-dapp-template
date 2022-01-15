@@ -14,7 +14,7 @@ declare global {
 let provider: ethers.providers.Web3Provider
 let reader: ethers.Contract
 if (typeof window.ethereum !== "undefined") {
-	provider = new ethers.providers.Web3Provider(window.ethereum)
+	provider = new ethers.providers.Web3Provider(window.ethereum, "any")
 	reader = new ethers.Contract(address, contract.abi, provider)
 }
 
@@ -75,6 +75,15 @@ export const connectWallet = () => {
 		const metamaskIsInstalled = ethereum && ethereum.isMetaMask
 		if (metamaskIsInstalled && provider) {
 			try {
+				provider.on("network", (newNetwork, oldNetwork) => {
+					if (newNetwork.name !== CONFIG.NETWORK.ID.toString()) {
+						window.location.reload()
+					} else {
+						alert(
+							`Please switch Metamask Network to ${CONFIG.NETWORK.NAME}`
+						)
+					}
+				})
 				const accounts = await ethereum.request({
 					method: "eth_requestAccounts",
 				})

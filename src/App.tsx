@@ -40,8 +40,8 @@ const App: React.FC = () => {
 	}, [
 		dispatch,
 		data.totalSupply,
-		blockchain.provider,
-		blockchain.smartContract,
+		blockchain?.provider?._network?.name,
+		blockchain?.smartContract?.reader?.address,
 	])
 
 	return (
@@ -68,8 +68,10 @@ const App: React.FC = () => {
 			<ConnectButton loading={data.loading} />
 			<SubContainer>
 				<StyledSelect value={amount} onChange={handleSelect}>
-					{options.map((option) => (
-						<StyledOption value={option}>{option}</StyledOption>
+					{options.map((option, i) => (
+						<StyledOption key={i} value={option}>
+							{option}
+						</StyledOption>
 					))}
 				</StyledSelect>
 				<MintButton amount={amount} loading={data.loading} />
