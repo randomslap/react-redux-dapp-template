@@ -50,7 +50,16 @@ const App: React.FC = () => {
 			<h2>
 				Network: {!data.loading ? capitalizeLetter(network) : "Loading"}
 			</h2>
-			<h2>Contract Address: {!data.loading ? address : "Loading"}</h2>
+			<h2>
+				Contract Address:{" "}
+				<a
+					target="_blank"
+					rel="noreferrer"
+					href="https://rinkeby.etherscan.io/address/0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62"
+				>
+					{!data.loading ? address : "Loading"}
+				</a>
+			</h2>
 			<h2>
 				Minted:{" "}
 				{!data.loading
