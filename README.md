@@ -1,3 +1,3 @@
 # React JS dApp Template
 
-For single page dApp use
+For single-page dApp projects
