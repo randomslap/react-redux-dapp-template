@@ -1,1 +1,1 @@
-# react-redux-web3-template
+# React dApp Template

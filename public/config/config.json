@@ -1,0 +1,18 @@
+{
+	"CONTRACT_ADDRESS": "0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62",
+	"SCAN_LINK": "https://rinkeby.etherscan.io/address/0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62",
+	"NETWORK": {
+		"NAME": "Rinkeby",
+		"SYMBOL": "ETH",
+		"ID": 4
+	},
+	"NFT_NAME": "Sample NFT",
+	"SYMBOL": "SAMP",
+	"MAX_SUPPLY": 10000,
+	"WEI_COST": 50000000000000000,
+	"DISPLAY_COST": 0.05,
+	"GAS_LIMIT": 285000,
+	"MARKETPLACE": "Opeansea",
+	"MARKETPLACE_LINK": "https://testnets.opensea.io/collection/sample-testnet",
+	"SHOW_BACKGROUND": true
+}
