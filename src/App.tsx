@@ -47,21 +47,32 @@ const App: React.FC = () => {
 	return (
 		<Container>
 			<img src={logo} className="App-logo" alt="logo" />
-			<h2>Network: {capitalizeLetter(network)}</h2>
-			<h2>Contract Address: {address}</h2>
+			<h2>
+				Network: {!data.loading ? capitalizeLetter(network) : "Loading"}
+			</h2>
+			<h2>Contract Address: {!data.loading ? address : "Loading"}</h2>
 			<h2>
 				Minted:{" "}
-				{data.tokensMinted === 0 ? 0 : data.tokensMinted.toNumber()}/
-				{data.totalSupply === 0 ? 0 : data.totalSupply.toNumber()}
+				{!data.loading
+					? `${
+							data.tokensMinted === 0
+								? 0
+								: data.tokensMinted.toNumber()
+					  }/${
+							data.totalSupply === 0
+								? 0
+								: data.totalSupply.toNumber()
+					  }`
+					: "Loading"}
 			</h2>
-			<ConnectButton />
+			<ConnectButton loading={data.loading} />
 			<SubContainer>
 				<StyledSelect value={amount} onChange={handleSelect}>
 					{options.map((option) => (
 						<StyledOption value={option}>{option}</StyledOption>
 					))}
 				</StyledSelect>
-				<MintButton amount={amount} />
+				<MintButton amount={amount} loading={data.loading} />
 			</SubContainer>
 			<h2>
 				<a

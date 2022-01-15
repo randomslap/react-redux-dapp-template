@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { fetchData } from "../redux/data/dataActions"
 import { connectWallet } from "../redux/blockchain/blockchainActions"
 
-const ConnectButton: React.FC = () => {
+const ConnectButton: React.FC<{ loading: boolean }> = ({ loading }) => {
 	const dispatch = useDispatch()
 	const blockchain = useSelector(
 		(state: { blockchain: any }) => state.blockchain
@@ -34,8 +34,11 @@ const ConnectButton: React.FC = () => {
 					dispatch(connectWallet())
 				}
 			}}
+			disabled={loading}
 		>
-			<StyledText>{walletAddress || "Connect your wallet"}</StyledText>
+			<StyledText>
+				{!loading ? walletAddress || "Connect your wallet" : "Loading"}
+			</StyledText>
 		</StyledButton>
 	)
 }

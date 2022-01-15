@@ -5,7 +5,10 @@ import styled from "styled-components"
 import { fetchData } from "../redux/data/dataActions"
 import { connectWallet } from "../redux/blockchain/blockchainActions"
 
-const MintButton: React.FC<{ amount: number }> = ({ amount }) => {
+const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
+	amount,
+	loading,
+}) => {
 	const dispatch = useDispatch()
 	const blockchain: any = useSelector((state: any) => state.blockchain)
 	const data: any = useSelector((state: any) => state.data)
@@ -92,8 +95,9 @@ const MintButton: React.FC<{ amount: number }> = ({ amount }) => {
 				e.preventDefault()
 				mint()
 			}}
+			disabled={loading}
 		>
-			<StyledText>Mint </StyledText>
+			<StyledText>{!loading ? "Mint" : "Loading"}</StyledText>
 		</StyledButton>
 	)
 }
