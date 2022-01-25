@@ -1,9 +1,13 @@
-import { ethers } from "ethers"
+// constants
+import { createAlchemyWeb3 } from "@alch/alchemy-web3"
 
+// log
 import { fetchData } from "../data/dataActions"
+
 import contract from "../../artifacts/contracts/Sample.sol/Sample.json"
 
 const address: string = `${process.env.REACT_APP_CONTRACT_ADDRESS}`
+const abi: any = contract.abi
 
 declare global {
 	interface Window {
@@ -11,12 +15,7 @@ declare global {
 	}
 }
 
-let provider: ethers.providers.Web3Provider
-let reader: ethers.Contract
-if (typeof window.ethereum !== "undefined") {
-	provider = new ethers.providers.Web3Provider(window.ethereum, "any")
-	reader = new ethers.Contract(address, contract.abi, provider)
-}
+let web3 = createAlchemyWeb3(process.env.REACT_APP_RPC_URL || "")
 
 const connectRequest = () => {
 	return {
@@ -47,17 +46,32 @@ const updateAccountRequest = (payload: any) => {
 
 export const connectReader = () => {
 	return async (dispatch: any) => {
-		dispatch(connectRequest())
-		const SmartContractObj: any = {
-			reader,
+		try {
+			dispatch(connectRequest())
+			const { ethereum } = window
+			const metamaskIsInstalled = ethereum && ethereum.isMetaMask
+			if (metamaskIsInstalled) {
+				const networkId = await ethereum.request({
+					method: "net_version",
+				})
+				const SmartContractObj = new web3.eth.Contract(abi, address)
+				dispatch(
+					connectSuccess({
+						smartContract: {
+							...SmartContractObj,
+							networkId: parseInt(networkId),
+						},
+						web3: web3,
+					})
+				)
+			} else {
+				alert("Install Metamask.")
+				dispatch(connectFailed("Install Metamask."))
+			}
+		} catch (err) {
+			alert("Error Something went wrong.")
+			dispatch(connectFailed("Something went wrong."))
 		}
-		SmartContractObj.interface = SmartContractObj.reader.interface
-		dispatch(
-			connectSuccess({
-				smartContract: SmartContractObj,
-				provider,
-			})
-		)
 	}
 }
 
@@ -72,42 +86,30 @@ export const connectWallet = () => {
 		})
 		const CONFIG = await configResponse.json()
 		const { ethereum } = window
-		const metamaskIsInstalled: boolean = ethereum && ethereum.isMetaMask
-		if (metamaskIsInstalled && provider) {
+		const metamaskIsInstalled = ethereum && ethereum.isMetaMask
+		if (metamaskIsInstalled) {
 			try {
-				provider.on("network", (newNetwork, oldNetwork) => {
-					if (newNetwork.name !== CONFIG.NETWORK.ID.toString()) {
-						window.location.reload()
-					}
-				})
 				const accounts = await ethereum.request({
 					method: "eth_requestAccounts",
 				})
 				const networkId = await ethereum.request({
 					method: "net_version",
 				})
-				if (networkId === CONFIG.NETWORK.ID.toString()) {
-					console.log("Success")
-					const signer = provider.getSigner()
-					const SmartContractObj: any = {
-						reader,
-						signer: new ethers.Contract(
-							CONFIG.CONTRACT_ADDRESS,
-							contract.abi,
-							signer
-						),
-					}
-					SmartContractObj.interface =
-						SmartContractObj.reader.interface
+				if (parseInt(networkId) === CONFIG.NETWORK.ID) {
+					const SmartContractObj = new web3.eth.Contract(abi, address)
+					console.log("smart", SmartContractObj)
 					dispatch(
 						connectSuccess({
 							account: accounts[0],
-							smartContract: SmartContractObj,
-							provider,
+							smartContract: {
+								...SmartContractObj,
+								networkId: parseInt(networkId),
+							},
+							web3: web3,
 						})
 					)
 					// Add listeners start
-					ethereum.on("accountsChanged", (accounts: object[]) => {
+					ethereum.on("accountsChanged", (accounts: [number]) => {
 						dispatch(updateAccount(accounts[0]))
 					})
 					ethereum.on("chainChanged", () => {
@@ -115,23 +117,21 @@ export const connectWallet = () => {
 					})
 					// Add listeners end
 				} else {
-					console.log("Failed")
+					alert("Please change network to Rinkeby")
 					dispatch(
 						connectFailed(
 							`Change network to ${CONFIG.NETWORK.NAME}.`
 						)
 					)
-					alert(
-						`Please set the Metamask Network to ${CONFIG.NETWORK.NAME}`
-					)
 				}
 			} catch (err) {
 				console.log(err)
+				alert("Something went wrong.")
 				dispatch(connectFailed("Something went wrong."))
 			}
 		} else {
+			alert("Install Metamask.")
 			dispatch(connectFailed("Install Metamask."))
-			alert("Please install Metamask.")
 		}
 	}
 }
