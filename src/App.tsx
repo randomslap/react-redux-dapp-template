@@ -31,17 +31,32 @@ const App: React.FC = () => {
 			}
 		}
 		getTotalSupply()
-		if (blockchain?.provider?._network?.name) {
-			setNetwork(blockchain.provider._network.name)
+		if (blockchain?.smartContract?.networkId) {
+			switch (blockchain.smartContract.networkId) {
+				case 1:
+					setNetwork("Mainnet")
+					break
+				case 3:
+					setNetwork("Ropsten")
+					break
+				case 4:
+					setNetwork("Rinkeby")
+					break
+				case 5:
+					setNetwork("Goerli")
+					break
+				default:
+					setNetwork("Unknown")
+			}
 		}
-		if (blockchain?.smartContract?.reader?.address) {
-			setAddress(blockchain?.smartContract?.reader?.address)
+		if (blockchain?.smartContract?._address) {
+			setAddress(blockchain?.smartContract?._address)
 		}
 	}, [
 		dispatch,
 		data.totalSupply,
-		blockchain?.provider?._network?.name,
-		blockchain?.smartContract?.reader?.address,
+		blockchain?.smartContract?.networkId,
+		blockchain?.smartContract?._address,
 	])
 
 	return (
@@ -63,14 +78,8 @@ const App: React.FC = () => {
 			<h2>
 				Minted:{" "}
 				{!data.loading
-					? `${
-							data.tokensMinted === 0
-								? 0
-								: data.tokensMinted.toNumber()
-					  }/${
-							data.totalSupply === 0
-								? 0
-								: data.totalSupply.toNumber()
+					? `${data.tokensMinted === 0 ? 0 : data.tokensMinted}/${
+							data.totalSupply === 0 ? 0 : data.totalSupply
 					  }`
 					: "Loading"}
 			</h2>

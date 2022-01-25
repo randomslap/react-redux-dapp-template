@@ -51,36 +51,30 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 
 	const mint = async () => {
 		try {
-			if (!data.salePaused && blockchain.account) {
-				let cost = CONFIG.WEI_COST
-				let gasLimit = CONFIG.GAS_LIMIT
-				let totalCostWei = String(cost * amount)
-				let totalGasLimit = String(gasLimit * amount)
-				const transaction = await blockchain.smartContract.signer.mint(
-					amount,
-					{
-						value: totalCostWei,
-						gasLimit: totalGasLimit,
-					}
-				)
-				await transaction.wait()
-				const txReceipt =
-					await blockchain.provider.getTransactionReceipt(
-						transaction.hash
+			getData()
+			const soldOut =
+				parseInt(data.tokensMinted) === parseInt(data.totalSupply)
+			if (!soldOut) {
+				if (!data.salePaused && blockchain.account) {
+					let cost = CONFIG.WEI_COST
+					let gasLimit = CONFIG.GAS_LIMIT
+					let totalCostWei = String(cost * amount)
+					let totalGasLimit = String(gasLimit * amount)
+					const receipt = await blockchain.smartContract.methods
+						.mint(amount)
+						.send({
+							gasLimit: totalGasLimit,
+							to: blockchain.smartContract._address,
+							from: blockchain.account,
+							value: totalCostWei,
+						})
+					alert(
+						`Purchased ${amount} token(s)! It may take some time to show up on Opensea. Transaction: https://rinkeby.etherscan.io/tx/${receipt.transactionHash}`
 					)
-				const purchasedIds = txReceipt.logs
-					.map((log: any) =>
-						blockchain.smartContract.interface.parseLog(log)
-					)
-					.filter((log: any) => log.name === "Transfer")
-					.map((log: any) => log.args.tokenId.toNumber())
-				console.log(purchasedIds)
-				alert(
-					`Purchased ${purchasedIds.length} token(s)! It may take some time to show up on Opensea.`
-				)
-				getData()
-			} else if (!blockchain.account) {
-				dispatch(connectWallet())
+					getData()
+				} else if (!blockchain.account) {
+					dispatch(connectWallet())
+				}
 			}
 		} catch (err) {
 			console.log(err)

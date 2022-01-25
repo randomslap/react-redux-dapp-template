@@ -25,12 +25,15 @@ export const fetchData = () => {
 		dispatch(fetchDataRequest())
 		try {
 			const state = store.getState()
-			let totalSupply =
-				await state.blockchain.smartContract.reader.total_supply()
-			let salePaused =
-				await state.blockchain.smartContract.reader.paused_sale()
-			let tokensMinted =
-				await state.blockchain.smartContract.reader.tokensMinted()
+			let totalSupply = await state.blockchain.smartContract.methods
+				.total_supply()
+				.call()
+			let salePaused = await state.blockchain.smartContract.methods
+				.paused_sale()
+				.call()
+			let tokensMinted = await state.blockchain.smartContract.methods
+				.tokensMinted()
+				.call()
 			dispatch(
 				fetchDataSuccess({
 					totalSupply,
