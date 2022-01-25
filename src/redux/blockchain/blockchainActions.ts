@@ -72,16 +72,12 @@ export const connectWallet = () => {
 		})
 		const CONFIG = await configResponse.json()
 		const { ethereum } = window
-		const metamaskIsInstalled = ethereum && ethereum.isMetaMask
+		const metamaskIsInstalled: boolean = ethereum && ethereum.isMetaMask
 		if (metamaskIsInstalled && provider) {
 			try {
 				provider.on("network", (newNetwork, oldNetwork) => {
 					if (newNetwork.name !== CONFIG.NETWORK.ID.toString()) {
 						window.location.reload()
-					} else {
-						alert(
-							`Please switch Metamask Network to ${CONFIG.NETWORK.NAME}`
-						)
 					}
 				})
 				const accounts = await ethereum.request({
