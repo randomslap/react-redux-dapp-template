@@ -5,10 +5,7 @@ import styled from "styled-components"
 import { fetchData } from "../redux/data/dataActions"
 import { connectWallet } from "../redux/blockchain/blockchainActions"
 
-const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
-	amount,
-	loading,
-}) => {
+const MintButton: React.FC<{ amount: number }> = ({ amount }) => {
 	const dispatch = useDispatch()
 	const blockchain: any = useSelector((state: any) => state.blockchain)
 	const data: any = useSelector((state: any) => state.data)
@@ -32,12 +29,6 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 		SHOW_BACKGROUND: false,
 	})
 
-	const getData = () => {
-		if (blockchain.account !== "" && blockchain.smartContract !== null) {
-			dispatch(fetchData())
-		}
-	}
-
 	const getConfig = async () => {
 		const configResponse = await fetch("/config/config.json", {
 			headers: {
@@ -51,11 +42,12 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 
 	const mint = async () => {
 		try {
-			getData()
 			const soldOut =
 				parseInt(data.tokensMinted) === parseInt(data.totalSupply)
 			if (!soldOut) {
+				console.log(2)
 				if (!data.salePaused && blockchain.account) {
+					console.log(3)
 					let cost = CONFIG.WEI_COST
 					let gasLimit = CONFIG.GAS_LIMIT
 					let totalCostWei = String(cost * amount)
@@ -71,10 +63,13 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 					alert(
 						`Purchased ${amount} token(s)! It may take some time to show up on Opensea. Transaction: https://rinkeby.etherscan.io/tx/${receipt.transactionHash}`
 					)
-					getData()
+					dispatch(fetchData())
 				} else if (!blockchain.account) {
+					console.log(4)
 					dispatch(connectWallet())
 				}
+			} else {
+				alert("Sold out!")
 			}
 		} catch (err) {
 			console.log(err)
@@ -83,7 +78,7 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 
 	useEffect(() => {
 		getConfig()
-	}, [])
+	}, [dispatch])
 
 	return (
 		<StyledButton
@@ -91,9 +86,9 @@ const MintButton: React.FC<{ amount: number; loading: boolean }> = ({
 				e.preventDefault()
 				mint()
 			}}
-			disabled={loading}
+			disabled={!blockchain.smartContract}
 		>
-			<StyledText>{!loading ? "Mint" : "Loading"}</StyledText>
+			<StyledText>Mint</StyledText>
 		</StyledButton>
 	)
 }

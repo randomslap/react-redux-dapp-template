@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { fetchData } from "../redux/data/dataActions"
 import { connectWallet } from "../redux/blockchain/blockchainActions"
 
-const ConnectButton: React.FC<{ loading: boolean }> = ({ loading }) => {
+const ConnectButton: React.FC = () => {
+	console.log("rerender")
 	const dispatch = useDispatch()
-	const blockchain = useSelector(
-		(state: { blockchain: any }) => state.blockchain
+	const account = useSelector(
+		(state: { blockchain: any }) => state.blockchain.account
 	)
-	const [walletAddress, setWalletAddress] = useState("")
-
-	useEffect(() => {
-		const getData = () => {
-			if (
-				blockchain.account !== "" &&
-				blockchain.smartContract !== null &&
-				!walletAddress
-			) {
-				dispatch(fetchData())
-				setWalletAddress(blockchain.account)
-			}
-		}
-		getData()
-	}, [blockchain, walletAddress, dispatch])
 
 	return (
 		<StyledButton
 			onClick={(e) => {
 				e.preventDefault()
-				if (!walletAddress) {
+				if (!account) {
 					dispatch(connectWallet())
 				}
 			}}
-			disabled={loading}
+			disabled={account}
 		>
-			<StyledText>
-				{!loading ? walletAddress || "Connect your wallet" : "Loading"}
-			</StyledText>
+			<StyledText>{account || "Connect your wallet"}</StyledText>
 		</StyledButton>
 	)
 }

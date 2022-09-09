@@ -64,6 +64,7 @@ export const connectReader = () => {
 						web3: web3,
 					})
 				)
+				dispatch(fetchData())
 			} else {
 				alert("Install Metamask.")
 				dispatch(connectFailed("Install Metamask."))
@@ -97,7 +98,6 @@ export const connectWallet = () => {
 				})
 				if (parseInt(networkId) === CONFIG.NETWORK.ID) {
 					const SmartContractObj = new web3.eth.Contract(abi, address)
-					console.log("smart", SmartContractObj)
 					dispatch(
 						connectSuccess({
 							account: accounts[0],

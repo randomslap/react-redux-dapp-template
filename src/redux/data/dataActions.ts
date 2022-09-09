@@ -24,14 +24,14 @@ export const fetchData = () => {
 	return async (dispatch: any) => {
 		dispatch(fetchDataRequest())
 		try {
-			const state = store.getState()
-			let totalSupply = await state.blockchain.smartContract.methods
+			const { blockchain } = store.getState()
+			let totalSupply = await blockchain.smartContract.methods
 				.total_supply()
 				.call()
-			let salePaused = await state.blockchain.smartContract.methods
+			let salePaused = await blockchain.smartContract.methods
 				.paused_sale()
 				.call()
-			let tokensMinted = await state.blockchain.smartContract.methods
+			let tokensMinted = await blockchain.smartContract.methods
 				.tokensMinted()
 				.call()
 			dispatch(

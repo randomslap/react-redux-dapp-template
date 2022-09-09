@@ -14,6 +14,7 @@ const blockchainReducer = (state = initialState, action: Action) => {
 		case "CONNECTION_REQUEST":
 			return {
 				...initialState,
+				...state,
 				loading: true,
 			}
 		case "CONNECTION_SUCCESS":
@@ -28,6 +29,7 @@ const blockchainReducer = (state = initialState, action: Action) => {
 		case "CONNECTION_FAILED":
 			return {
 				...initialState,
+				...state,
 				loading: false,
 				errorMsg: action.payload,
 			}
