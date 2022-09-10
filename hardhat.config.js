@@ -1,9 +1,7 @@
-import dotenv from "dotenv"
-import { task } from "hardhat/config"
-import "@nomiclabs/hardhat-waffle"
-import "@nomiclabs/hardhat-etherscan"
-
-dotenv.config()
+require("dotenv").config()
+require("@nomiclabs/hardhat-waffle")
+require("@nomiclabs/hardhat-etherscan")
+const { task } = require("hardhat/config")
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 	const accounts = await hre.ethers.getSigners()
@@ -38,4 +36,4 @@ const config = {
 	},
 }
 
-export default config
+module.exports = config
