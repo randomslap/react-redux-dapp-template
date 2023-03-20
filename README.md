@@ -1,4 +1,4 @@
-# React JS dApp Template
+# React JS dApp Template (Currently broken due to Alchemy API changes)
 
 For single-page dApp projects
 
