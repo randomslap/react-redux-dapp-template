@@ -40,6 +40,12 @@ const App: React.FC = () => {
 		dispatch(connectReader())
 	}, [dispatch])
 
+	useEffect(() => {
+		alert(
+			"Due to recent changes to Alchemy's testnet, this site is currently broken. Please check back later for an update."
+		)
+	}, [])
+
 	return (
 		<Container>
 			<img src={logo} className="App-logo" alt="logo" />
