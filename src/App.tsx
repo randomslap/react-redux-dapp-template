@@ -62,6 +62,13 @@ const App: React.FC = () => {
 				>
 					Opensea Testnet
 				</a>
+				<a
+					target="_blank"
+					rel="noreferrer"
+					href="https://github.com/randomslap/react-redux-dapp-template"
+				>
+					GitHub Repository
+				</a>
 			</h2>
 		</Container>
 	)
