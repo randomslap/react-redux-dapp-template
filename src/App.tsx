@@ -42,7 +42,7 @@ const App: React.FC = () => {
 
 	useEffect(() => {
 		alert(
-			"Due to recent changes to Alchemy's testnet, this site is currently broken. Please check back later for an update."
+			"Due to recent changes to Alchemy's API, this site is currently broken. Please check back later for an update."
 		)
 	}, [])
 
