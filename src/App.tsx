@@ -40,12 +40,6 @@ const App: React.FC = () => {
 		dispatch(connectReader())
 	}, [dispatch])
 
-	useEffect(() => {
-		alert(
-			"Due to recent changes to Alchemy's API, this site is currently broken. Please check back later for an update."
-		)
-	}, [])
-
 	return (
 		<Container>
 			<img src={logo} className="App-logo" alt="logo" />
@@ -54,22 +48,22 @@ const App: React.FC = () => {
 			<Supply />
 			<ConnectButton />
 			<MintSection />
-			<h2>
+			<Container>
 				<a
 					target="_blank"
 					rel="noreferrer"
 					href="https://testnets.opensea.io/collection/sample-testnet"
 				>
-					Opensea Testnet
+					<h2>Opensea Testnet</h2>
 				</a>
 				<a
 					target="_blank"
 					rel="noreferrer"
 					href="https://github.com/randomslap/react-redux-dapp-template"
 				>
-					GitHub Repository
+					<h2>GitHub Repository</h2>
 				</a>
-			</h2>
+			</Container>
 		</Container>
 	)
 }

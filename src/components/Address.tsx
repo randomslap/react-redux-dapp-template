@@ -11,7 +11,7 @@ const Address: React.FC = () => {
 			<a
 				target="_blank"
 				rel="noreferrer"
-				href="https://rinkeby.etherscan.io/address/0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62"
+				href="https://sepolia.etherscan.io/address/0x7BC456ce8965B982982D06961422f643dE5936d8"
 			>
 				{address || "Loading"}
 			</a>

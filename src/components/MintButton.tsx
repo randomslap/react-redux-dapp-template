@@ -61,7 +61,7 @@ const MintButton: React.FC<{ amount: number }> = ({ amount }) => {
 							value: totalCostWei,
 						})
 					alert(
-						`Purchased ${amount} token(s)! It may take some time to show up on Opensea. Transaction: https://rinkeby.etherscan.io/tx/${receipt.transactionHash}`
+						`Purchased ${amount} token(s)! It may take some time to show up on Opensea. Transaction: https://sepolia.etherscan.io/tx/${receipt.transactionHash}`
 					)
 					dispatch(fetchData())
 				} else if (!blockchain.account) {

@@ -1,10 +1,10 @@
 {
 	"CONTRACT_ADDRESS": "0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62",
-	"SCAN_LINK": "https://rinkeby.etherscan.io/address/0x2b3a7e96033042eC05C44E1eef5aef30FF99fE62",
+	"SCAN_LINK": "https://sepolia.etherscan.io/address/0x7BC456ce8965B982982D06961422f643dE5936d8",
 	"NETWORK": {
-		"NAME": "Rinkeby",
+		"NAME": "Sepolia",
 		"SYMBOL": "ETH",
-		"ID": 4
+		"ID": 11155111
 	},
 	"NFT_NAME": "Sample NFT",
 	"SYMBOL": "SAMP",

@@ -25,6 +25,9 @@ const Network: React.FC = () => {
 				case 5:
 					setNetwork("Goerli")
 					break
+				case 11155111:
+					setNetwork("Sepolia")
+					break
 				default:
 					setNetwork("Unknown")
 			}

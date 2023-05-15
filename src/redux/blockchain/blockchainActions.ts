@@ -55,6 +55,7 @@ export const connectReader = () => {
 					method: "net_version",
 				})
 				const SmartContractObj = new web3.eth.Contract(abi, address)
+				console.log(SmartContractObj)
 				dispatch(
 					connectSuccess({
 						smartContract: {
@@ -90,14 +91,19 @@ export const connectWallet = () => {
 		const metamaskIsInstalled = ethereum && ethereum.isMetaMask
 		if (metamaskIsInstalled) {
 			try {
+				console.log("prior")
+				console.log(ethereum.request)
 				const accounts = await ethereum.request({
 					method: "eth_requestAccounts",
 				})
+				console.log("request accounts")
 				const networkId = await ethereum.request({
 					method: "net_version",
 				})
+				console.log("request net version")
 				if (parseInt(networkId) === CONFIG.NETWORK.ID) {
 					const SmartContractObj = new web3.eth.Contract(abi, address)
+					console.log("contract")
 					dispatch(
 						connectSuccess({
 							account: accounts[0],
@@ -117,7 +123,7 @@ export const connectWallet = () => {
 					})
 					// Add listeners end
 				} else {
-					alert("Please change network to Rinkeby")
+					alert("Please change network to Sepolia")
 					dispatch(
 						connectFailed(
 							`Change network to ${CONFIG.NETWORK.NAME}.`

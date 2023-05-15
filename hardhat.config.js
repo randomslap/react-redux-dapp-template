@@ -16,20 +16,20 @@ const config = {
 		version: "0.8.9",
 		settings: {
 			optimizer: {
-				enabled: false,
+				enabled: true,
 				runs: 200,
 			},
 		},
 	},
-	defaultNetwork: "rinkeby",
+	defaultNetwork: "sepolia",
 	networks: {
-		rinkeby: {
+		sepolia: {
 			url: process.env.RPC_URL,
 			accounts: [process.env.PRIV_KEY],
 		},
 	},
 	hardhat: {
-		chainId: 4,
+		chainId: 11155111,
 	},
 	etherscan: {
 		apiKey: process.env.ETHERSCAN_API_KEY,
