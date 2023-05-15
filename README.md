@@ -32,7 +32,7 @@ npx hardhat compile
 ```
 
 ```bash
-npx hardhat run --network rinkeby scripts/deploy.js
+npx hardhat run --network sepolia scripts/deploy.js
 ```
 
 ```bash
