@@ -1,4 +1,4 @@
-# React JS dApp Template (Currently broken due to Alchemy API changes)
+# React JS dApp Template
 
 For single-page dApp projects
 
@@ -7,7 +7,7 @@ For single-page dApp projects
 -   Knowledge in Typescript/Javascript and Solidity
 -   [Alchemy Account](https://www.alchemy.com/)
 -   [Etherscan Account](https://etherscan.io/)
--   Rinkeby Testnet wallet and some RinkebyETH
+-   Sepolia Testnet wallet and some SepoliaETH
 
 ## Install dependencies
 
@@ -28,7 +28,15 @@ Rename `.env.sample` to `.env`
 Run the following command with HardHat CLI:
 
 ```bash
+npx hardhat compile
+```
+
+```bash
 npx hardhat run --network rinkeby scripts/deploy.js
+```
+
+```bash
+npx hardhat verify --network sepolia <address> <param1> <param2> <param3>
 ```
 
 ## Configure dApp for new Solidity smart contract
